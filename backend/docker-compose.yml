@@ -1,0 +1,52 @@
+version: '3'
+services:
+
+  odoo:
+    build: .
+    image: odoo:12.0
+    depends_on:
+      - postgres
+    command: odoo
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./config:/etc/odoo
+      - ./myaddons:/mnt/extra-addons
+      - odoo-web-data:/var/lib/odoo
+    networks:
+      - dev
+
+  postgres:
+    image: postgres:10
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - dev
+
+  caddy:
+    image: abiosoft/caddy:no-stats
+    restart: always
+    environment:
+      CADDYPATH: /etc/caddycerts
+      ACME_AGREE: "true"
+    ports:
+        - 80:2015
+    volumes:
+      - ./caddy/Caddyfile:/etc/Caddyfile
+      - ./caddy/certificates:/etc/caddycerts
+      - ./caddy/logs:/var/log/caddy
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:

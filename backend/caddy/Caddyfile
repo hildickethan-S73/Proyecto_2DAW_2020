@@ -1,0 +1,20 @@
+localhost {
+    proxy / odoo:8069 {
+        transparent
+        header_upstream X-Forwarded-Host {host} # transparent preset is not enough
+    }
+
+    cors / {
+        origin *
+        methods GET,POST,OPTIONS,PUT,DELETE
+        max_age 86400
+        allowed_headers Origin,X-Requested-With,Content-Type,Accept,X-Debug-Mode
+    }
+
+   
+    tls off
+
+    gzip
+    log /var/log/caddy/odoo.access.log
+    errors /var/log/caddy/odoo.error.log
+}
