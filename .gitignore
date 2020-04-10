@@ -16,5 +16,6 @@ yarn-error.log*
 .vscode
 
 # caddy
-caddy/logs
-caddy/certificates
+backend/caddy/logs/odoo.access.log
+backend/caddy/logs/odoo.error.log
+backend/caddy/certificates
