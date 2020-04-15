@@ -142,9 +142,9 @@ class ApiRestBaseController(http.Controller):
         else:
             return "Model doesn't exist"
 
-def getSecret():
-    config = configparser.ConfigParser()
-    config.read('/etc/odoo/config.ini')
-    secret = config.get('password', 'JWT_PASSWORD')
+    def getSecret():
+        config = configparser.ConfigParser()
+        config.read('/etc/odoo/config.ini')
+        secret = config.get('password', 'JWT_PASSWORD')
 
-    return secret
+        return secret
