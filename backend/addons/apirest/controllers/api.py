@@ -63,23 +63,23 @@ class ApiRestBaseController(http.Controller):
             model = "{}.{}".format(self._allowedModels[modelToAccess],modelToAccess)
             modelObj = http.request.env[model]
             
-            # if 'token' in params.keys():
-            #     secret = getSecret()
-            #     token = str(params['token'])
-            #     try:
-            #         decoded = jwt.decode(token, secret, algorithms=['HS256'])
-            #         params['author_id'] = decoded['id']
+            if 'token' in params.keys():
+                secret = getSecret()
+                token = str(params['token'])
+                try:
+                    decoded = jwt.decode(token, secret, algorithms=['HS256'])
+                    params['author_id'] = decoded['id']
                 
-            #         del params['token']
-            create = modelObj.create(params)
-            parsedResult = create.parseOne()
-            #         del params['author_id']
+                    del params['token']
+                    create = modelObj.create(params)
+                    parsedResult = create.parseOne()
+                    del params['author_id']
                     
-            return parsedResult
-            #     except:
-            #         return {'Error': "Invalid token"}
-            # else:
-            #     return {'Error': 'No token'}
+                    return parsedResult
+                except:
+                    return {'Error': "Invalid token"}
+            else:
+                return {'Error': 'No token'}
         else:
             return {'Error':"Model doesn't exist"}
 
