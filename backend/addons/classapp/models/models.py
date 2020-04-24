@@ -43,6 +43,25 @@ class Student(models.Model):
     cosmetic_ids = fields.Many2many("classapp.cosmetic", string="Purchased cosmetics")
     group_id = fields.Many2one("classapp.group", string="Current group")
 
+# when a teacher clicks to invite emails from frontend
+# it sends a request to backend to send it, but we need an Odoo model to send emails correctly
+# we create a secondary model to fill in emails to send to the users
+# those emails will send them to a register page where they will register as a student and enroll in a class
+class Email(models.Model):
+    _name = 'classapp.email'
+    _description = 'Email model to use to send invitation emails'
+
+    name = fields.Char(string="Email", required=True)
+
+    @api.multi
+    def mail_register(self):
+        print("sending email")
+        template_id = self.env.ref("classapp.student_register_email_template").id
+        print("template id", template_id)
+        template = self.env["mail.template"].sudo().browse(template_id)
+        print("template", template)
+        template.send_mail(self.id, force_send=True)
+
 class Skill(models.Model):
     _inherit = 'apirest.base'
     _name = 'classapp.skill'

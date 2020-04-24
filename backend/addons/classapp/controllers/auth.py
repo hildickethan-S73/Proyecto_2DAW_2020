@@ -1,28 +1,36 @@
 # -*- coding: utf-8 -*-
 from odoo import http
-from odoo.addons.apirest.controllers.api import ApiRestBaseController
 import hashlib
 import os
 import jwt
 import configparser
-
-class ClassAppAPI(ApiRestBaseController):
-    ApiRestBaseController._allowedModels.update({
-        # 'admin':'classapp',
-        # 'teacher':'classapp',
-        # 'student':'classapp',
-        'skill':'classapp',
-        'cosmetic':'classapp',
-        'class':'classapp',
-        'group':'classapp',
-        'rewardpunishment':'classapp',
-    })
 
 # admin users would be created manually in DB or through Odoo
 # teachers created by admin
 # students invited by teacher go through register
 
 class ClassAppAuth(http.Controller):
+    @http.route("/auth/mail",
+        type="json", auth="public", methods=["POST","OPTIONS"])
+    def mailResponse(self, **kw):
+        params = http.request.params
+        emails = params['emails']
+        modelObj = http.request.env['classapp.email']
+
+        # sends emails 1 by 1
+        # would be better to iterate to see which users need to be created
+        # then send all emails in 1 batch
+        for email in emails:
+            query = [("name","=",email['name'])]
+            email_result = modelObj.search(args=query, limit=1)
+
+            if not email_result.exists():
+                email_result = modelObj.create(email)
+
+            email_result.mail_register()
+
+
+
     @http.route('/auth/register',
         type='json', auth='public', methods=['POST','OPTIONS'])
     def registerResponse(self, **kw):
@@ -55,7 +63,7 @@ class ClassAppAuth(http.Controller):
                     
                     return parsedResult
                 else:
-                    return ['Error': "Class code is incorrect"]
+                    return {'Error': "Class code is incorrect"}
             except:
                 return {'Error': "Invalid token"}
         else:

@@ -10,9 +10,10 @@
     "license": "LGPL-3",
     "author": "Ethan Hildick",
     "website": "https://github.com/hildickethan/Proyecto_2DAW_2020",
-    "depends": ["apirest"],
+    "depends": ["apirest","mail"],
     "data": [
         "security/ir.model.access.csv",
+        "data/mail_template.xml",
     ],
     "demo": [],
 }
