@@ -55,11 +55,8 @@ class Email(models.Model):
 
     @api.multi
     def mail_register(self):
-        print("sending email")
         template_id = self.env.ref("classapp.student_register_email_template").id
-        print("template id", template_id)
         template = self.env["mail.template"].sudo().browse(template_id)
-        print("template", template)
         template.send_mail(self.id, force_send=True)
 
 class Skill(models.Model):
@@ -114,7 +111,7 @@ class RewardPunishment(models.Model):
         string="Type", 
         required=True, 
         selection=[
-            ("Reward"),
-            ("Punishment"),
+            ("Reward", "Reward"),
+            ("Punishment", "Punishment"),
         ],
     )

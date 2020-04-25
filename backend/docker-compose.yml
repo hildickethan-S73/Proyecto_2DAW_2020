@@ -6,7 +6,7 @@ services:
     image: odoo:12.0
     depends_on:
       - postgres
-    command: odoo
+    command: odoo -i classapp -d classapp_test --test-enable --stop-after-init
     ports:
       - "8069:8069"
     volumes:

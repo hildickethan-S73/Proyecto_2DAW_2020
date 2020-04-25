@@ -10,6 +10,7 @@ import configparser
 # students invited by teacher go through register
 
 class ClassAppAuth(http.Controller):
+    # requires SMTP configuration, add that in data somehow
     @http.route("/auth/mail",
         type="json", auth="public", methods=["POST","OPTIONS"])
     def mailResponse(self, **kw):
@@ -20,6 +21,7 @@ class ClassAppAuth(http.Controller):
         # sends emails 1 by 1
         # would be better to iterate to see which users need to be created
         # then send all emails in 1 batch
+        sent_emails = []
         for email in emails:
             query = [("name","=",email['name'])]
             email_result = modelObj.search(args=query, limit=1)
@@ -29,6 +31,13 @@ class ClassAppAuth(http.Controller):
 
             email_result.mail_register()
 
+            mail = http.request.env['mail.mail']
+            search_ids = mail.sudo().search([])
+            last_id = search_ids and max(search_ids)
+
+            if last_id['email_to'] == email['name']:
+                sent_emails.append(email['name'])
+        return sent_emails
 
 
     @http.route('/auth/register',

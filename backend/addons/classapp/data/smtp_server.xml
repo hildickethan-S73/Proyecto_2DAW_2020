@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="ir_mail_server_google" model="ir.mail_server" forcecreate="0">
+            <field name="name">Google SMTP server</field>
+            <field name="smtp_host">smtp.gmail.com</field>
+            <field eval="1" name="sequence"/>
+            <field eval="465" name="smtp_port"/>
+            <field name="smtp_encryption">ssl</field>
+            <!-- <field name="smtp_user">smtp.classapp@gmail.com</field> -->
+            <!-- <field name="smtp_pass"></field> --> 
+            <!-- i dont know how to place the password here without raw text -->
+            <!-- users will have to add the username and password themselves -->
+        </record>
+    </data>
+</odoo>
