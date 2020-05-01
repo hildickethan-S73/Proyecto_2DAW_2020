@@ -54,10 +54,12 @@ class Email(models.Model):
     name = fields.Char(string="Email", required=True)
 
     @api.multi
-    def mail_register(self):
+    def mail_register(self, invite_link):
         template_id = self.env.ref("classapp.student_register_email_template").id
         template = self.env["mail.template"].sudo().browse(template_id)
+        template["body_html"] = template["body_html"].replace("[link]", invite_link)
         template.send_mail(self.id, force_send=True)
+        template["body_html"] = template["body_html"].replace(invite_link, "[link]")
 
 class Skill(models.Model):
     _inherit = 'apirest.base'

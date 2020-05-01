@@ -10,7 +10,6 @@ import configparser
 # students invited by teacher go through register
 
 class ClassAppAuth(http.Controller):
-    # requires SMTP configuration, add that in data somehow
     @http.route("/auth/mail",
         type="json", auth="public", methods=["POST","OPTIONS"])
     def mailResponse(self, **kw):
@@ -29,7 +28,11 @@ class ClassAppAuth(http.Controller):
             if not email_result.exists():
                 email_result = modelObj.create(email)
 
-            email_result.mail_register()
+            secret = getSecret()
+            invite_token = jwt.encode({'class': params['class']}, secret, algorithm='HS256')
+            invite_link = "http://localhost:3000/register/{}".format(invite_token.decode("utf-8"))
+
+            email_result.mail_register(invite_link)
 
             mail = http.request.env['mail.mail']
             search_ids = mail.sudo().search([])
@@ -107,48 +110,48 @@ class ClassAppAuth(http.Controller):
     def logoutResponse(self, **kw):
         return {"logout":"yes"}
 
-    def hashPassword(password,salt):
-        '''
-            hash the password with a salt \n
-            
-            :param: password
-                string to hash
-            :param: salt
-                bytes to salt with, generate with generateSalt()
-        '''
-        key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000).hex()
-        return key
-
-    # generate salt
-    def generateSalt():
-        '''
-            generate a salt
-        '''
-        return os.urandom(32) 
-
-
-    def verifyPassword(password,loginpassword):
-        '''
-            match 2 passwords \n
-            
-            :param: password
-                password in DB
-            :param: loginpassword
-                password to check
-        '''
-        salt, hash = password.split('$')
-        salt = bytes.fromhex(salt)
-
-        newhash = hashPassword(loginpassword,salt)
-
-        if hash == newhash:
-            return True
+def hashPassword(password,salt):
+    '''
+        hash the password with a salt \n
         
-        return False
+        :param: password
+            string to hash
+        :param: salt
+            bytes to salt with, generate with generateSalt()
+    '''
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000).hex()
+    return key
 
-    def getSecret():
-        config = configparser.ConfigParser()
-        config.read('/etc/odoo/config.ini')
-        secret = config.get('password', 'JWT_PASSWORD')
+# generate salt
+def generateSalt():
+    '''
+        generate a salt
+    '''
+    return os.urandom(32) 
 
-        return secret
+
+def verifyPassword(password,loginpassword):
+    '''
+        match 2 passwords \n
+        
+        :param: password
+            password in DB
+        :param: loginpassword
+            password to check
+    '''
+    salt, hash = password.split('$')
+    salt = bytes.fromhex(salt)
+
+    newhash = hashPassword(loginpassword,salt)
+
+    if hash == newhash:
+        return True
+    
+    return False
+
+def getSecret():
+    config = configparser.ConfigParser()
+    config.read('/etc/odoo/config.ini')
+    secret = config.get('password', 'JWT_PASSWORD')
+
+    return secret
