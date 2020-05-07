@@ -68,12 +68,10 @@ class ApiRestBaseController(http.Controller):
                 token = str(params['token'])
                 try:
                     decoded = jwt.decode(token, secret, algorithms=['HS256'])
-                    params['author_id'] = decoded['id']
                 
                     del params['token']
                     create = modelObj.create(params)
                     parsedResult = create.parseOne()
-                    del params['author_id']
                     
                     return parsedResult
                 except:
