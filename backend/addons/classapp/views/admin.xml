@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="admin_form">
+        <field name="name">admin.form</field>
+        <field name="model">classapp.admin</field>
+        <field name="arch" type="xml">
+            <tree string="Tree view">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="teacher_ids"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="admin_list_action">
+        <field name="name">List</field>
+        <field name="res_model">classapp.admin</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create something
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="main_admin_menu" name="admin view"/>
+    <menuitem id="admin_menu" name="Parent Menu" parent="main_admin_menu"/>
+    <menuitem id="admin_menu_3" name="List" parent="admin_menu" action="admin_list_action"/>
+  </data>
+</odoo>

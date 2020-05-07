@@ -15,6 +15,7 @@
         "security/ir.model.access.csv",
         "data/mail_template.xml",
         "data/smtp_server.xml",
+        "views/admin.xml",
     ],
     "demo": [],
 }

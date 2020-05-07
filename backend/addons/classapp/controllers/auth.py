@@ -17,30 +17,42 @@ class ClassAppAuth(http.Controller):
         emails = params['emails']
         modelObj = http.request.env['classapp.email']
 
-        # sends emails 1 by 1
-        # would be better to iterate to see which users need to be created
-        # then send all emails in 1 batch
-        sent_emails = []
-        for email in emails:
-            query = [("name","=",email['name'])]
-            email_result = modelObj.search(args=query, limit=1)
-
-            if not email_result.exists():
-                email_result = modelObj.create(email)
-
+        if 'token' in params.keys():
             secret = getSecret()
-            invite_token = jwt.encode({'class': params['class']}, secret, algorithm='HS256')
-            invite_link = "http://localhost:3000/register/{}".format(invite_token.decode("utf-8"))
+            token = str(params['token'])
+            try:
+                decoded = jwt.decode(token, secret, algorithms=['HS256'])
+                params['teacher_id'] = decoded['id']
 
-            email_result.mail_register(invite_link)
+                # sends emails 1 by 1
+                # would be better to iterate to see which users need to be created
+                # then send all emails in 1 batch
+                sent_emails = []
+                for email in emails:
+                    query = [("name","=",email['name'])]
+                    email_result = modelObj.search(args=query, limit=1)
 
-            mail = http.request.env['mail.mail']
-            search_ids = mail.sudo().search([])
-            last_id = search_ids and max(search_ids)
+                    if not email_result.exists():
+                        email_result = modelObj.create(email)
 
-            if last_id['email_to'] == email['name']:
-                sent_emails.append(email['name'])
-        return sent_emails
+                    secret = getSecret()
+                    invite_token = jwt.encode({'classcode': params['class'],"teacher_id": params["teacher_id"]}, secret, algorithm='HS256')
+                    invite_link = "http://localhost:3000/register/{}".format(invite_token.decode("utf-8"))
+
+                    email_result.mail_register(invite_link)
+
+                    mail = http.request.env['mail.mail']
+                    search_ids = mail.sudo().search([])
+                    last_id = search_ids and max(search_ids)
+
+                    if last_id['email_to'] == email['name']:
+                        sent_emails.append(email['name'])
+                return sent_emails
+
+            except:
+                return {'Error': "Invalid token"}
+        else:
+            return {'Error': 'No token'}
 
 
     @http.route('/auth/register',
@@ -57,27 +69,32 @@ class ClassAppAuth(http.Controller):
             try:
                 decoded = jwt.decode(code, secret, algorithms=['HS256'])
                 classcode = decoded['classcode']
-                result = http.request.env['classapp.class'].search(args=[("name","=",classcode)], limit=1).parseAll()
-                
+                params["teacher_id"] = decoded['teacher_id']
+
+                result = http.request.env['classapp.class'].search(args=[("name","=",classcode)], limit=1)
+
                 if result.exists():
+                    parsedResult = result.parseOne()
+                    params['class_ids'] = [(4, parsedResult["id"])]
+
                     salt = generateSalt()
                     hash = hashPassword(params['password'],salt)
                     params['password'] = '{}${}'.format(salt.hex(), hash)
-                    params['class_ids'] = result
 
                     create = modelObj.create(params)
-                    parsedResult = create.parseOne()
+                    parsedCreate = create.parseOne()
 
-                    del parsedResult['password']
+                    del parsedCreate['password']
 
-                    encoded_jwt = jwt.encode({'id': parsedResult['id']}, secret, algorithm='HS256')
-                    parsedResult['token'] = encoded_jwt
+                    encoded_jwt = jwt.encode({'id': parsedCreate['id']}, secret, algorithm='HS256')
+                    parsedCreate['token'] = encoded_jwt
                     
-                    return parsedResult
+                    return parsedCreate
                 else:
                     return {'Error': "Class code is incorrect"}
-            except:
-                return {'Error': "Invalid token"}
+            except Exception as error:
+                return {'Error': error}
+                return {'Error': "Invalid Token"}
         else:
             return {'Error': 'No token'}
 
@@ -85,7 +102,11 @@ class ClassAppAuth(http.Controller):
         type='json', auth='public', methods=['POST','OPTIONS'])
     def loginResponse(self, **kw):
         params = http.request.params
-        modelObj = http.request.env['classapp.student']
+        login_type = params["type"]
+        if login_type in ["teacher", "student"]:
+            modelObj = http.request.env['classapp.{}'.format(login_type)]
+        else:
+            return {"error":"Wrong login type"}
 
         query = [("name","=",params['name'])]
         result = modelObj.search(args=query, limit=1)
@@ -109,6 +130,17 @@ class ClassAppAuth(http.Controller):
         type='json', auth='public', methods=['POST','OPTIONS'])
     def logoutResponse(self, **kw):
         return {"logout":"yes"}
+
+    # @http.route('/auth/password',
+    #     type='json', auth='public', methods=['POST','OPTIONS'])
+    # def pwResponse(self, **kw):
+    #     params = http.request.params
+
+    #     salt = generateSalt()
+    #     hash = hashPassword(params['password'],salt)
+    #     password = '{}${}'.format(salt.hex(), hash)
+
+    #     return {"password":password}
 
 def hashPassword(password,salt):
     '''

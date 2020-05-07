@@ -33,12 +33,12 @@ class Student(models.Model):
     _name = 'classapp.student'
     _description = 'Student user'
 
-    currency = fields.Integer(string="Currency", required=True)
-    energy = fields.Integer(string="Energy", required=True)
-    growth = fields.Integer(string="Growth", required=True)
+    currency = fields.Integer(string="Currency", required=True, default="0")
+    energy = fields.Integer(string="Energy", required=True, default="100")
+    growth = fields.Integer(string="Growth", required=True, default="0")
 
     teacher_id = fields.Many2one("classapp.teacher", string="Invited by", required=True)
-    class_ids = fields.Many2many("classapp.class", string="Classes")
+    class_ids = fields.Many2many("classapp.class", string="Classes", required=True)
     skill_ids = fields.Many2many("classapp.skill", string="Available skills")
     cosmetic_ids = fields.Many2many("classapp.cosmetic", string="Purchased cosmetics")
     group_id = fields.Many2one("classapp.group", string="Current group")
@@ -87,7 +87,7 @@ class Class(models.Model):
 
     name = fields.Char(string="Name", required=True)
     teacher_id = fields.Many2one("classapp.teacher", string="Class teacher", required=True)
-    student_ids = fields.Many2many("classapp.student", string="Class students", required=True)
+    student_ids = fields.Many2many("classapp.student", string="Class students")
     group_ids = fields.One2many("classapp.group", "class_id", string="Class groups")
 
 class Group(models.Model):
