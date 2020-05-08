@@ -21,4 +21,23 @@ const requests = {
         superagent.del(`${ODOO_ROOT_URL}${url}`).then(httpResponseBody)
 };
 
-// export default {}
+const API = {
+    getClass: (name) =>
+        requests.get(`/api/class/${name}`)
+};
+
+const Auth = {
+    login: (credentials) => 
+        requests.post('/auth/login', credentials),
+    register: (credentials) => 
+        requests.post('/auth/register', credentials),
+    logout: () => 
+        requests.post('/auth/logout'),
+    invite: (params) =>
+        requests.post('/auth/mail', params)
+}
+
+export default {
+    API,
+    Auth
+}

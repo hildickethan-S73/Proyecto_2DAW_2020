@@ -49,6 +49,12 @@ code {
   font-size: 24px;
 }
 
+.header-nav-subitem {
+  display: flex;
+  padding: 0.5em 1.4em 0.5em 0;
+  font-size: 20px;
+}
+
 .header-nav-item a {
   text-decoration: none;
   color: white;
@@ -60,6 +66,23 @@ code {
 
 .header-nav-item a:hover{
   color: #61dafb;
+}
+.header-nav-sub-menu {
+  display: none;
+  position: absolute;
+  background-color: #1c1e24;
+}
+
+.header-nav-item:hover > .header-nav-sub-menu {
+  display: block;
+  z-index: 50;
+}
+
+.header-nav-dropdown > a:after {
+  font-family: 'Genericons';
+  content: '\f431';
+  padding: 1px;
+  vertical-align: middle;
 }
 
 .login-home {
@@ -91,4 +114,30 @@ code {
 .login-box .login-button {
   padding: 0em;
   background-color: #61dafb;
+}
+
+.home-text {
+  font-size: 5em;
+  padding-top: 2.5em;
+}
+
+.arrow {
+  height:120px;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 5px;
+}
+
+.line {
+  margin-left:65px;
+  width:70px;
+  background:#61dafb;
+  height:150px;
+}
+.point {    
+  width: 0;
+  height: 0; 
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 150px solid #61dafb;
 }

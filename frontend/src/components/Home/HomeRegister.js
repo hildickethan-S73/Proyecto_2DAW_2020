@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HomeNoToken from './HomeNoToken';
-import HomeRegisterLogin from './HomeRegisterLogin';
+import HomeToken from './HomeToken';
 
 class HomeRegister extends Component {
   token = this.props.token;
@@ -13,7 +13,7 @@ class HomeRegister extends Component {
       }
   
     return (
-      <HomeRegisterLogin token={this.token} />
+      <HomeToken token={this.token} />
     );
   }
 };
