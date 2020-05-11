@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import HeaderClass from './HeaderClass';
 
 const HeaderLogin = (props) => {
   return (
@@ -8,10 +9,7 @@ const HeaderLogin = (props) => {
         <nav className="header-nav">
           <ul>
             <li className="header-nav-item header-nav-dropdown"><a>Classes</a>
-              <ul className="header-nav-sub-menu">
-                <li className="header-nav-subitem"><a>class 1</a></li>
-                <li className="header-nav-subitem"><a>class 2</a></li>
-              </ul>
+              <HeaderClass />
             </li>
             <li className="header-nav-item"><Link to="/chat" title="Chat">Chat</Link></li>
           </ul>

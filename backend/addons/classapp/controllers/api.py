@@ -48,11 +48,15 @@ class ClassAppAPI(ApiRestBaseController):
         auth='public', type="json", methods=['POST'])
     def classesPostResponse(self, **kw):
         params = http.request.params
-        class_ids = params["class_ids"] # "classapp.class(4,6,)"
-        class_ids = class_ids.replace("classapp.class(", "") # "4,6,)"
-        class_ids = class_ids.replace(",)", "") # "4,6"
-        class_ids = class_ids.split(",") # ["4","6"]
-        class_ids = [int(i) for i in class_ids] # [4,6]
+        # don't have the time to look for a better solution
+        class_ids = params["class_ids"]                      # "classapp.class(4,)"
+        class_ids = class_ids.replace("classapp.class(", "") # "4,)"
+        # these 2 steps are because with 1 number it ends with a "," yet multiple don't.
+        # only 1 of them will do anything
+        class_ids = class_ids.replace(",)", "")              # "4"
+        class_ids = class_ids.replace(")", "")               # "4,6"
+        class_ids = class_ids.split(",")                     # ["4"]
+        class_ids = [int(i) for i in class_ids]              # [4]
 
         # 1 line version
         # class_ids = [ int(i) for i in params["class_ids"]
