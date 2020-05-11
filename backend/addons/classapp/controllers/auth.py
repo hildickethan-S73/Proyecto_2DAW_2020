@@ -93,7 +93,7 @@ class ClassAppAuth(http.Controller):
                 else:
                     return {'Error': "Class code is incorrect"}
             except Exception as error:
-                return {'Error': error}
+                # return {'Error': error}
                 return {'Error': "Invalid Token"}
         else:
             return {'Error': 'No token'}
