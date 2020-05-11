@@ -38,8 +38,8 @@ class ClassAppAPI(ApiRestBaseController):
                 del params['teacher_id']
                 
                 return parsedResult
-            except:
-                return {'Error': "Invalid token"}
+            except Exception as error:
+                return {'Error': "Invalid token or input", "errmsg": error}
         else:
             return {'Error': 'No token'}
 

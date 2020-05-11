@@ -109,11 +109,17 @@ code {
   margin: 1em;
   padding: 0.5em;
   border: none;
+  border-radius: 0.3em;
 }
 
-.login-box .login-button {
-  padding: 0em;
+.button {
+  border: none;
+  border-radius: 0.3em;
   background-color: #61dafb;
+}
+
+.button:hover {
+  background-color: #39b3d4;
 }
 
 .home-text {

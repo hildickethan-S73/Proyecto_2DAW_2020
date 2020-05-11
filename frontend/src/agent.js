@@ -23,7 +23,9 @@ const requests = {
 
 const API = {
     getMyClasses: (params) =>
-        requests.post(`/api/classes`,params)
+        requests.post(`/api/classes`, params),
+    createClass: (params) =>
+        requests.post(`/api/class`, params)
 };
 
 const Auth = {

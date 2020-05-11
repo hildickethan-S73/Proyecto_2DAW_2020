@@ -1,5 +1,5 @@
 import {
-    AUTH_REGISTER, AUTH_LOGIN, AUTH_LOGOUT, AUTH_CHANGE, AUTH_LOAD_NEWUSER, AUTH_LOAD_NEWUSER_REGISTER, AUTH_CHANGE_REGISTER, CLASS_GET_CLASSES
+    AUTH_REGISTER, AUTH_LOGIN, AUTH_LOGOUT, AUTH_CHANGE, AUTH_LOAD_NEWUSER, AUTH_LOAD_NEWUSER_REGISTER, AUTH_CHANGE_REGISTER, CLASS_GET_CLASSES, CLASS_UPDATE_CLASSES
 } from '../constants/actionTypes';
 
 export default (state = {}, action) => {
@@ -82,6 +82,12 @@ export default (state = {}, action) => {
                     ...state.user,
                     token: action.payload.token
                 }
+            };
+
+        case CLASS_UPDATE_CLASSES:
+            return {
+                ...state,
+                classes: [...state.classes, action.payload]
             };
 
         default:

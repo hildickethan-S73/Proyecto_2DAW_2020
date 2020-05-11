@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import agent from '../../agent';
 import HeaderNoLogin from './HeaderNoLogin';
-import HeaderLogin from './HeaderLogin';
+import HeaderLogin from './HeaderLogin/HeaderLogin';
 import { AUTH_LOGOUT } from '../../constants/actionTypes';
 
 const mapStateToProps = (state) => ({
@@ -27,7 +27,7 @@ class Header extends Component {
   render() {
     if (this.props.auth.user && this.props.auth.user.id) {
       return(
-        <HeaderLogin name={this.props.auth.user.name} logout={this.logout} />
+        <HeaderLogin name={this.props.auth.user.name} admin_id={this.props.auth.user.admin_id || ""} logout={this.logout} />
       )
     }
     return (

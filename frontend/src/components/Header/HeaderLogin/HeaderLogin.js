@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import HeaderClass from './HeaderClass';
+import CreateClassButton from '../../CreateClass/CreateClassButton';
 
 const HeaderLogin = (props) => {
   return (
@@ -12,6 +13,8 @@ const HeaderLogin = (props) => {
               <HeaderClass />
             </li>
             <li className="header-nav-item"><Link to="/chat" title="Chat">Chat</Link></li>
+            {/* only teachers have an admin_id field */}
+            {props.admin_id !== "" && <CreateClassButton />}
           </ul>
         </nav>
       </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import agent from '../../agent';
-import { AUTH_CHANGE_REGISTER, AUTH_REGISTER, AUTH_LOAD_NEWUSER_REGISTER } from '../../constants/actionTypes';
+import agent from '../../../agent';
+import { AUTH_CHANGE_REGISTER, AUTH_REGISTER, AUTH_LOAD_NEWUSER_REGISTER } from '../../../constants/actionTypes';
 
 const mapStateToProps = (state) => ({
   ...state,
@@ -76,7 +76,7 @@ class HomeToken extends Component {
           <input className="form-item" name="email" value={this.props.auth.new_user_register.email || ''} onChange={this.change} placeholder="email" type="email"/>
           <input className="form-item" name="password" value={this.props.auth.new_user_register.password || ''} onChange={this.change} placeholder="password" type="password"/>
           <input className="form-item" name="confirmpassword" value={this.props.auth.new_user_register.confirmpassword || ''} onChange={this.change} placeholder="confirm password" type="password"/>
-          <input className="form-item login-button" onClick={this.register} type="button" value="Register" />
+          <input className="form-item button" onClick={this.register} type="button" value="Register" />
         </form>
       </div>
     );

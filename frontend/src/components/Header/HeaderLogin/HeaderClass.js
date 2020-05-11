@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import agent from '../../agent';
-import { CLASS_GET_CLASSES } from '../../constants/actionTypes';
+import agent from '../../../agent';
+import { CLASS_GET_CLASSES } from '../../../constants/actionTypes';
 
 const mapStateToProps = (state) => ({
   ...state,
@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   loadClasses: (data) => dispatch({
     type: CLASS_GET_CLASSES,
     payload: data
-  }),
+  })
 })
 
 class HeaderClass extends Component {
@@ -29,7 +29,7 @@ class HeaderClass extends Component {
       agent.API.getMyClasses(params)
     ))
   }
-  
+
   render() {
     if (!this.props.classes) {
       return (

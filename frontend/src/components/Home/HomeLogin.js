@@ -73,7 +73,7 @@ class HomeLogin extends Component {
             <label><input onChange={this.change} className="form-item" value="student" name="type" type="radio" defaultChecked /> Student</label>
             <label><input onChange={this.change} className="form-item" value="teacher" name="type" type="radio" /> Teacher</label>
           </div> 
-          <input className="form-item login-button" onClick={this.login} type="button" value="Login" />
+          <input className="form-item button" onClick={this.login} type="button" value="Login" />
         </form>
       </div>
     );
