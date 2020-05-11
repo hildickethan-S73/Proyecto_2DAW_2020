@@ -131,17 +131,6 @@ class ClassAppAuth(http.Controller):
     def logoutResponse(self, **kw):
         return {"logout":"yes"}
 
-    # @http.route('/auth/password',
-    #     type='json', auth='public', methods=['POST','OPTIONS'])
-    # def pwResponse(self, **kw):
-    #     params = http.request.params
-
-    #     salt = generateSalt()
-    #     hash = hashPassword(params['password'],salt)
-    #     password = '{}${}'.format(salt.hex(), hash)
-
-    #     return {"password":password}
-
 def hashPassword(password,salt):
     '''
         hash the password with a salt \n

@@ -35,7 +35,7 @@ const Auth = {
         requests.post('/auth/register', credentials),
     logout: () => 
         requests.post('/auth/logout'),
-    invite: (params) =>
+    inviteStudents: (params) =>
         requests.post('/auth/mail', params)
 }
 

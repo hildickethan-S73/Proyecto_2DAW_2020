@@ -13,6 +13,7 @@ export default (state = {}, action) => {
               }
           }
           return {
+            ...state,
             class: action.payload
           }
       case CREATECLASS_CHANGE:

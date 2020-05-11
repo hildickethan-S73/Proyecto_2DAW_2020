@@ -46,17 +46,40 @@ class CreateClass extends Component {
         "name": newClass.name,
         "token": this.props.user.token
       }
-      this.props.createClassF(Promise.resolve(
-        agent.API.createClass(params)
-      ))
+      const emailRegEx = new RegExp(/^([\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})(,[\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})*$/);
+      let emails;
+      let emailObj = [];
+      if (newClass.invitations) {
+        if (emailRegEx.test(newClass.invitations)) {
+          emails = newClass.invitations.split(",");
+          emails.forEach(email => {
+            emailObj.push({"name":email})
+          });
+        } else {
+          console.error('bad invitations input')
+        }
+      }
+      if (!newClass.invitations) {
+        this.props.createClassF(Promise.resolve(
+          agent.API.createClass(params)
+        ))
+      } else if (emailObj.length !== 0) {
+        this.props.createClassF(Promise.resolve(
+          agent.API.createClass(params)
+        ))
+        const paramsForEmail = {
+          "emails": emailObj,
+          "class": newClass.name,
+          "token": this.props.user.token
+        }
+        agent.Auth.inviteStudents(paramsForEmail)
+      }
     } else {
         console.error('missing fields')
     }
   }
   
   render() {
-    console.log(this.props.createClass);
-    
     if (!this.props.user) {
       return(
           <Redirect to="/" />
@@ -77,19 +100,20 @@ class CreateClass extends Component {
             <h3>Loading...</h3>
             <div className="filler" />
           </div>
-          {this.props.createClass.class && <Redirect to="/" />}
         </div>
       )
-  }
-
+    }
+    
     return (
       <div className="App-body">
+        {this.props.createClass.class && <Redirect to="/" />}
         <div className="login-home">
           <div className="filler" />
           <div className="login-box">
-            <h3>Create Class</h3>
+            <h3>Create a Class</h3>
             <form>
               <input className="form-item" name="name" value={this.props.createClass.newClass.name || ""}  onChange={this.change} placeholder="class name" type="text"/>
+              <textarea className="form-item" name="invitations" value={this.props.createClass.newClass.invitations || ""}  onChange={this.change} placeholder="student e-mails to invite, seperated by a ','" type="text"/>
               <input className="form-item button" onClick={this.create}  type="button" value="Create" />
             </form>
           </div>
