@@ -43,7 +43,7 @@ class ClassAppAPI(ApiRestBaseController):
         else:
             return {'Error': 'No token'}
 
-    ### CREATE 
+    ### GET USERS CLASSES 
     @http.route('/api/classes/', 
         auth='public', type="json", methods=['POST'])
     def classesPostResponse(self, **kw):
@@ -56,32 +56,36 @@ class ClassAppAPI(ApiRestBaseController):
         class_ids = class_ids.replace(",)", "")              # "4"
         class_ids = class_ids.replace(")", "")               # "4,6"
         class_ids = class_ids.split(",")                     # ["4"]
-        class_ids = [int(i) for i in class_ids]              # [4]
 
-        # 1 line version
-        # class_ids = [ int(i) for i in params["class_ids"]
-        #                                 .replace("classapp.class(", "")
-        #                                 .replace(",)", "")
-        #                                 .split(",")
-        # ]
+        if class_ids[0] != "":
+            class_ids = [int(i) for i in class_ids]              # [4]
 
-        modelObj = http.request.env["classapp.class"]
-        
-        if 'token' in params.keys():
-            secret = ApiRestBaseController.getSecret()
-            token = str(params['token'])
-            try:
-                decoded = jwt.decode(token, secret, algorithms=['HS256'])
-                id = decoded['id']
+            # 1 line version
+            # class_ids = [ int(i) for i in params["class_ids"]
+            #                                 .replace("classapp.class(", "")
+            #                                 .replace(",)", "")
+            #                                 .split(",")
+            # ]
 
-                result = modelObj.browse(class_ids)
-                parsedResult = result.parseAll()
+            modelObj = http.request.env["classapp.class"]
+            
+            if 'token' in params.keys():
+                secret = ApiRestBaseController.getSecret()
+                token = str(params['token'])
+                try:
+                    decoded = jwt.decode(token, secret, algorithms=['HS256'])
+                    id = decoded['id']
 
-                encoded_jwt = jwt.encode({'id': id}, secret, algorithm='HS256')
-                resultObj = {"classes":parsedResult, "token": encoded_jwt}
+                    result = modelObj.browse(class_ids)
+                    parsedResult = result.parseAll()
 
-                return resultObj
-            except Exception as error:
-                return {'Error': "Invalid token or classes", "errmsg": error}
+                    encoded_jwt = jwt.encode({'id': id}, secret, algorithm='HS256')
+                    resultObj = {"classes":parsedResult, "token": encoded_jwt}
+
+                    return resultObj
+                except Exception as error:
+                    return {'Error': "Invalid token or classes", "errmsg": error}
+            else:
+                return {'Error': 'No token'}
         else:
-            return {'Error': 'No token'}
+            return {"classes":[], "token": params['token']}
