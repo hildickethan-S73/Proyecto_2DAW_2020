@@ -14,6 +14,7 @@ yarn-error.log*
 
 # general
 .vscode
+bootstrap*
 
 # caddy
 backend/caddy/logs/odoo.access.log

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import agent from '../../../agent';
 import { CLASS_GET_CLASSES } from '../../../constants/actionTypes';
 
@@ -41,7 +42,7 @@ class HeaderClass extends Component {
 
     return (
       <ul className="header-nav-sub-menu">
-        {this.props.classes.map((c) => <li key={c.id} className="header-nav-subitem"><a>{c.name}</a></li>)}
+        {this.props.classes.map((c) => <li key={c.id} className="header-nav-subitem"><Link to={"/class/"+c.id+"/home"} title={c.name}>{c.name}</Link></li>)}
       </ul>
     );
   }

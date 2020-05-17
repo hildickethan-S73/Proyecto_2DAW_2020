@@ -39,6 +39,10 @@ code {
   flex: 1 0 auto;
 }
 
+.long-filler {
+  flex: 100 0 auto;
+}
+
 .header-nav {
   margin: 0.5em;
 }
@@ -55,12 +59,12 @@ code {
   font-size: 20px;
 }
 
-.header-nav-item a {
-  text-decoration: none;
+a {
+  text-decoration: none !important; 
   color: white;
 }
 
-.header-nav-item a.active {
+.active {
   border-bottom: 2px solid #61dafb;
 }
 
@@ -146,4 +150,198 @@ code {
   border-left: 100px solid transparent;
   border-right: 100px solid transparent;
   border-bottom: 150px solid #61dafb;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.height95 {
+  height: 95vh;
+}
+
+.padding-0 {
+  padding: 0px;
+}
+
+.student-info {
+  background-color: #d1ab41;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.student-info-name {
+  flex-grow: 1;
+  border-bottom: 2px solid black;
+}
+
+.student-info-bars {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid black;
+}
+
+.student-info-bars div {
+  flex-grow: 1;
+}
+
+.student-info-buttons {
+  border-bottom: 2px solid black;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.student-info-skills {
+  flex-grow: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-info-skills .row {
+  flex-grow: 1;
+  border-bottom: 1px solid black;
+}
+
+.bar {
+  border-radius: 1em;
+  height: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.bar-name {
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 0;
+}
+
+.energy {
+  background-color: #4761f1;
+}
+
+.growth {
+  background-color: #57f55f;
+}
+
+.coins {
+  background-color: #865f20;
+}
+
+.circle {
+  margin: auto auto;
+  border-radius: 5em;
+  height: 5em;
+  width: 5em;
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.center {
+  vertical-align: middle;
+}
+
+.skill-text {
+  display: flex;
+  flex-direction: column;
+  padding:0;
+}
+
+.skill-name {
+  flex-grow: 1;
+
+}
+
+.skill-desc {
+  flex-grow: 5;
+}
+
+.red {
+  background-color: #db5c5c;
+}
+
+.cyan {
+  background-color: #61dafb;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.group-player {
+  min-height: 25vh;
+}
+
+.student-character {
+  min-height: 70vh;
+}
+
+.search-bar {
+  min-height: 7vh;
+}
+
+.search-bar input {
+  margin: 1em;
+  padding: 0.5em;
+  border: none;
+  border-radius: 0.3em;
+}
+
+.student-list { 
+  flex-grow: 1;
+}
+
+.student-list-name {
+  min-height: 5vh;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.student-list-name a:hover {
+  color: #61dafb;
+}
+
+/* .borders div {
+  border: 1px solid black;
+} */
+
+.table-row {
+  flex-shrink: 1;
+  padding: 0.8em;
+  border-bottom: 2px solid black;
+}
+
+.table-row-header {
+  border-top: 2px solid black;
+}
+
+.class-student, .class-rewards {
+  border-left: 2px solid black;
+}
+
+.col-0 {
+  display: none;
+}
+
+.settings-box {
+  flex-grow: 1;
+}
+
+.settings-box h4 {
+  padding-top: 1em;
+}
+
+.settings-box>div {
+  width:100%;
+}
+
+.pointer {
+  cursor: pointer;
 }

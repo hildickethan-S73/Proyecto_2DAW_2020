@@ -4,14 +4,14 @@
 - [x] Create class button for teacher
     - [x] Invitation
 
-- [ ] Home page for teacher
-    - [ ] Left bar with student list
-- [ ] Home page for student
+- [x] Home page for teacher
+    - [x] Left bar with student list
+- [x] Home page for student
 
-- [ ] Students page for teacher
-- [ ] Rewards page for teacher
-- [ ] Buttons on teacher home page
+- [x] Students page for teacher
+no time - [ ] Rewards page for teacher 
+- [x] Buttons on teacher home page
 
-- [ ] Group page for teacher
-- [ ] Group page for student
+no time - [ ] Group page for teacher
+no time - [ ] Group page for student
 - [ ] At some point make it so you don't logout when refreshing page (localstorage)
