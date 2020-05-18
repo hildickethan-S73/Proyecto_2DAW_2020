@@ -24,9 +24,9 @@ class ClassRewards extends Component {
           <div className="col-2">Growth Effect</div>
         </div>
         <div className="row table-row">
-          <div className="col-2">ethan hildick</div>
-          <div className="col-4">asdasda asdasda</div>
-          <div className="col-2">+100</div>
+          <div className="col-2">Homework</div>
+          <div className="col-4">The student did their homework for the day.</div>
+          <div className="col-2">+10</div>
           <div className="col-1">
             <input type="button" className="button" value="Edit" />
           </div>
